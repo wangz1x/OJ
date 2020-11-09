@@ -1,5 +1,5 @@
 package com.wzx;
-import java.util.Arrays;
+
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -50,7 +50,7 @@ public class Main {
 
     // arr1 = a, b, c, d ...
     // arr2 = A, B, C, D ...
-    // construct minimum heap with a+A, b+A, c+A, d+A
+    // construct minimum heap with a+A, b+A, c+A, d+A ... a+B, b+B, c+B ...
 }
 
 /**
