@@ -1,5 +1,7 @@
 package com.wzx.leetcode;
 
+import com.wzx.util.TreeNode;
+
 public class Leetcode129 {
     public static void main(String[] args) {
     }

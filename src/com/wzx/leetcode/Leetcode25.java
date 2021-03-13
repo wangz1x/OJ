@@ -1,6 +1,6 @@
 package com.wzx.leetcode;
 
-import java.util.List;
+import com.wzx.util.ListNode;
 
 public class Leetcode25 {
 

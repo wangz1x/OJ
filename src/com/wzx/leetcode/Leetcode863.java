@@ -1,5 +1,7 @@
 package com.wzx.leetcode;
 
+import com.wzx.util.TreeNode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,16 +69,5 @@ public class Leetcode863 {
             getNode(res, root.left, distance - 1);
             getNode(res, root.right, distance - 1);
         }
-    }
-}
-
-
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-
-    TreeNode(int x) {
-        val = x;
     }
 }
