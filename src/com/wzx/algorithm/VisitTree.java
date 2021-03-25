@@ -1,4 +1,4 @@
-package com.wzx.test;
+package com.wzx.algorithm;
 
 import com.wzx.util.TreeNode;
 

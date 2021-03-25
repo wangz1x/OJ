@@ -2,6 +2,9 @@ package com.wzx.algorithm;
 
 import com.wzx.util.TreeNode;
 
+/**
+ * 特殊的先序遍历二叉树的方法，可扩展
+ */
 public class Mirrors_ {
     public static void main(String[] args) {
         TreeNode root = new TreeNode(0, new TreeNode(1, new TreeNode(2), new TreeNode(3)), new TreeNode(4, null, new TreeNode(5)));

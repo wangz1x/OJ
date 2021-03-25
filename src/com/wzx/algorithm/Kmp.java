@@ -2,6 +2,9 @@ package com.wzx.algorithm;
 
 import java.util.Arrays;
 
+/**
+ * 实现KMP算法
+ */
 public class Kmp {
 
     public static void main(String[] args) {

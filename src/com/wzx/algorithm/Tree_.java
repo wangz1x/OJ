@@ -1,5 +1,9 @@
 package com.wzx.algorithm;
 
+
+/**
+ * 树状数组
+ */
 public class Tree_ {
     Node[] nodes;
     int[] arr;

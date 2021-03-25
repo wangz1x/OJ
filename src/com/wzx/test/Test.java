@@ -1,13 +1,17 @@
 package com.wzx.test;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 public class Test {
     public static void main(String[] args) {
-        String s3 = "aa";
-        String s2 = s3.intern();
-        String s1 = new String("aa");
-
-        System.out.println(s1 == s2);
-        System.out.println(s1 == s3);
-        System.out.println(s3 == s2);
+        Set<Integer> treeset = new TreeSet<>();
+        Set<Integer> treeset2 = new TreeSet<>();
+        treeset.add(0);
+        treeset2 = treeset;
+        for (int i = 0; i < 10; i++) {
+            treeset.add(i);
+        }
+        System.out.println(treeset2);
     }
 }
