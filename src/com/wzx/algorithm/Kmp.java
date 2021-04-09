@@ -12,6 +12,8 @@ public class Kmp {
         String s = "ababcdababa";
         System.out.println(match(s, p));
         System.out.println(otherMatch(s, p));
+
+        System.out.println(Arrays.toString(otherNext("abcabcdbb")));
     }
 
     public static int[] calculateNext(String pattern) {
@@ -68,15 +70,17 @@ public class Kmp {
             while (comparePointer > 0 && pattern.charAt(i) != pattern.charAt(comparePointer)) {
                 comparePointer = next[comparePointer];
             }
-            if (pattern.charAt(comparePointer) == pattern.charAt(i)) comparePointer++;
+            if (pattern.charAt(comparePointer) == pattern.charAt(i)) // 这个判断可以去掉, 因为
+                comparePointer++; // 如果还是不一样，
         }
-        for (int i = 1; i < pattern.length(); i ++) {
-            int temp = next[i];
-            while (temp >= 0 && pattern.charAt(i) == pattern.charAt(temp)) {
-                temp = next[temp];
-            }
-            next[i] = temp;
-        }
+
+//        for (int i = 1; i < pattern.length(); i ++) {
+//            int temp = next[i];
+//            while (temp >= 0 && pattern.charAt(i) == pattern.charAt(temp)) {
+//                temp = next[temp];
+//            }
+//            next[i] = temp;
+//        }
         System.out.println("otherNext: " + Arrays.toString(next));
         return next;
     }

@@ -1,7 +1,6 @@
-package com.wzx.toy;
+package com.wzx.util;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,7 +13,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class BlockingQueueTest {
+public class SearchKeywordsFromFiles {
 
     private static final int FILE_QUEUE_SIZE = 10;
     private static final int SEARCH_THREAD_NUM = 33;
@@ -25,13 +24,14 @@ public class BlockingQueueTest {
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
 
-        Path p = Paths.get("/home/wangzx/IdeaProjects/OJ");
-        scanFile1(list1, p);
-        scanFile2(list2, p);
+//        Path p = Paths.get("/home/wangzx/env/redis/redis-6.2.1/src");
+////        scanFile1(list1, p);
+//        scanFile2(list2, p);
+        scanFileFindKeyword();
 
-        System.out.println(list1.size());
-        System.out.println("====================================================================================");
-        System.out.println(list2.size());
+//        System.out.println(list1.size());
+//        System.out.println("====================================================================================");
+//        System.out.println(list2.size());
     }
 
     public static void scanFile1(List<String> files, Path path) throws IOException {
@@ -102,13 +102,22 @@ public class BlockingQueueTest {
 
     public static void search(Path path, String keyword) throws IOException {
 //        path.toFile().getName();
-        try (Scanner file = new Scanner(path, String.valueOf(StandardCharsets.UTF_8));) {
+        try (Scanner file = new Scanner(path, String.valueOf(StandardCharsets.UTF_8));
+             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path.toFile()), StandardCharsets.UTF_8))) {
             int lineNum = 0;
-            while (file.hasNextLine()) {
+//            while (file.hasNextLine()) {
+//                lineNum++;
+//                String line = file.nextLine();
+//                if (line.contains(keyword)) {
+//                    System.out.println(path + ":::" + lineNum + ":::");
+//                }
+//            }
+
+            String line;
+            while ((line = br.readLine()) != null) {
                 lineNum++;
-                String line = file.nextLine();
                 if (line.contains(keyword)) {
-                    System.out.println(path + ":::" + lineNum + ":::" + line);
+                    System.out.println(path + " : : : " + lineNum + " : : : ");
                 }
             }
         }
