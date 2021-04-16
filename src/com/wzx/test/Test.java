@@ -28,8 +28,13 @@ public class Test {
         int a = s.charAt(0);
         System.out.println((char)a);
         double d = 12324.12521321;
-        System.out.println(String.format("%.2d", d));
-        if (s.matches("abdg.*")) System.out.println("haha");
+        String format = String.format("%.4f", d);
+        System.out.println(format);
+        System.out.printf("%.2f", d);
+        System.out.println();
+        System.out.format("%.1f", d);
+        System.out.println();
+        System.out.println(s.matches("abdg.*"));
     }
 
     public void minNumber(String[] nums) {
