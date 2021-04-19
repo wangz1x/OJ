@@ -1,12 +1,27 @@
 package com.wzx.test;
 
-public class Choice {
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NavigableSet;
+import java.util.TreeSet;
+
+public class Choice<T>{
     public static void main(String[] args) {
-//        new Choice().go();
+
+        List<String> c = new ArrayList<String>(){};
+
+        Type genericSuperclass = c.getClass().getGenericSuperclass();
+        ParameterizedType pt = (ParameterizedType) genericSuperclass;
+        System.out.println(pt.getActualTypeArguments()[0].toString());
+
         String s = "祝你考出好成绩！";
         String ss = "祝你考出好成绩!";
         System.out.println(s+".length(): "+s.length());
         System.out.println(ss+".length(): "+ss.length());
+
+        NavigableSet<Long> set = new TreeSet<>();
     }
 
     public void go() {
@@ -18,5 +33,9 @@ public class Choice {
         };
         Thread t = new Thread(r);
         t.start();
+    }
+
+    static class Inner {
+
     }
 }

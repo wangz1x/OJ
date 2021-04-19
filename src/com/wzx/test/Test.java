@@ -24,17 +24,20 @@ public class Test {
 //        Arrays.sort(arr, (e1, e2) -> e2[1] - e1[1]);
 //        System.out.println(Arrays.deepToString(arr));
 //        System.out.println(kmp("abcabcabcabcdab", "abcabcdab"));
-        String s = "string";
-        int a = s.charAt(0);
-        System.out.println((char)a);
-        double d = 12324.12521321;
-        String format = String.format("%.4f", d);
-        System.out.println(format);
-        System.out.printf("%.2f", d);
-        System.out.println();
-        System.out.format("%.1f", d);
-        System.out.println();
-        System.out.println(s.matches("abdg.*"));
+//        String s = "string";
+//        int a = s.charAt(0);
+//        System.out.println((char)a);
+//        double d = 12324.12521321;
+//        String format = String.format("%.4f", d);
+//        System.out.println(format);
+//        System.out.printf("%.2f", d);
+//        System.out.println();
+//        System.out.format("%.1f", d);
+//        System.out.println();
+//        System.out.println(s.matches("abdg.*"));
+        Deque<Integer> stack = new LinkedList<>();
+        stack.push(234);
+        System.out.println(stack.peek() == 234);
     }
 
     public void minNumber(String[] nums) {
