@@ -1,8 +1,14 @@
 package com.wzx.test;
 
-import java.util.*;
+import java.lang.management.GarbageCollectorMXBean;
+import java.lang.management.ManagementFactory;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Test {
+<<<<<<< HEAD
     public static void main(String[] args) {
 //        List<String> lists = new ArrayList<String>() {{
 //            add("千与千寻");
@@ -65,83 +71,39 @@ public class Test {
         }
         return sb.reverse().toString();
     }
+=======
+>>>>>>> 419cb0a7b9c7a586460052dc9bae72cc9f178007
 
-    public void minNumber(String[] nums) {
-        // 就纯粹的排序吗
-        // 1. 从高位开始排, 高位越小的，放越前边
-        // 2. 如果某个数为另外一个数的前缀，在接着比较 大数的后部分和该数 大小
-        Arrays.sort(nums, this::compareTwo);
-        System.out.println(Arrays.toString(nums));
-//        return "";
+    public static final int _1_MB = 1024 * 1024;
+
+    public static ThreadLocal<Integer> threadLocal = new ThreadLocal<>();
+
+    public static void main(String[] args) throws InterruptedException {
+
+        List<GarbageCollectorMXBean> garbageCollectorMXBeans = ManagementFactory.getGarbageCollectorMXBeans();
+        for (GarbageCollectorMXBean garbageCollectorMXBean : garbageCollectorMXBeans) {
+            System.out.println(garbageCollectorMXBean.getName());
+        }
+        System.out.println(0x7fffffff);
+        Test test = new Test();
+        new Thread(() -> {
+            test.test("thread", "first");
+            threadLocal.set(1);
+        }).start();
+        new Thread(() -> test.test("thread", "first")).start();
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+        Set<Map.Entry<Integer, Integer>> entries = map.entrySet();
+        for (Map.Entry<Integer, Integer> entry : entries
+             ) {
+            entry.getValue();
+            entry.getKey();
+        }
     }
 
-
-    public int compareTwo(String strx, String stry) {
-        int idx = 0;
-        while (idx < strx.length() && idx < stry.length()) {
-            char cx = strx.charAt(idx);
-            char cy = stry.charAt(idx);
-            if (cx < cy) {
-                return -1;
-            } else if (cx > cy) {
-                return 1;
-            } else {
-                idx++;
-            }
+    public synchronized void test(String arg1, String arg2) {
+        synchronized (this) {
+            System.out.println(arg1 + arg2);
         }
-
-        if (idx < strx.length()) {   // y 是x的前缀
-            // y 从0到idx, x 从 idx 到后边
-            return compareTwo(strx.substring(idx), stry);
-        } else if (idx < stry.length()) {   // x 是 y 的前缀
-            return compareTwo(strx, stry.substring(idx));
-        }
-        return 0;
-    }
-
-    /**
-     * find pattern in str, and return the first char index of pattern in the str
-     * @param str source string
-     * @param pattern substring to be found in str
-     * @return first index
-     */
-    public static int kmp(String str, String pattern) {
-        int[] next = next(pattern);
-        int str_pointer = 0, pat_pointer = 0;
-
-        while (str_pointer < str.length() && pat_pointer < pattern.length()) {
-            while (pat_pointer != -1 && str.charAt(str_pointer) != pattern.charAt(pat_pointer)) {
-                pat_pointer=next[pat_pointer];
-            }
-            str_pointer++;
-            pat_pointer++;
-        }
-
-        return pat_pointer == pattern.length() ? str_pointer-pat_pointer : -1;
-    }
-
-    /**
-     * calculate the "next" position to compare when the current position is not match
-     *
-     * @param str string
-     * @return next array
-     */
-    public static int[] next(String str) {
-        int[] next = new int[str.length()];
-        next[0] = -1;
-
-        int last = 0, idx = 1;
-
-        while (idx < str.length()) {
-            next[idx] = last;
-            // calculate next for the next char
-            while (last > -1 && str.charAt(last) != str.charAt(idx)) {
-                last = next[last];
-            }
-            last++;
-            idx++;
-        }
-
-        return next;
     }
 }

@@ -108,4 +108,50 @@ public class Kmp {
         }
         return -1;
     }
+
+    /**
+     * find pattern in str, and return the first char index of pattern in the str
+     * @param str source string
+     * @param pattern substring to be found in str
+     * @return first index
+     */
+    public static int kmp(String str, String pattern) {
+        int[] next = next(pattern);
+        int str_pointer = 0, pat_pointer = 0;
+
+        while (str_pointer < str.length() && pat_pointer < pattern.length()) {
+            while (pat_pointer != -1 && str.charAt(str_pointer) != pattern.charAt(pat_pointer)) {
+                pat_pointer=next[pat_pointer];
+            }
+            str_pointer++;
+            pat_pointer++;
+        }
+
+        return pat_pointer == pattern.length() ? str_pointer-pat_pointer : -1;
+    }
+
+    /**
+     * calculate the "next" position to compare when the current position is not match
+     *
+     * @param str string
+     * @return next array
+     */
+    public static int[] next(String str) {
+        int[] next = new int[str.length()];
+        next[0] = -1;
+
+        int last = 0, idx = 1;
+
+        while (idx < str.length()) {
+            next[idx] = last;
+            // calculate next for the next char
+            while (last > -1 && str.charAt(last) != str.charAt(idx)) {
+                last = next[last];
+            }
+            last++;
+            idx++;
+        }
+
+        return next;
+    }
 }
