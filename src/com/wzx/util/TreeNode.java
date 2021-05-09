@@ -23,8 +23,9 @@ public class TreeNode {
     public String toString() {
         return "TreeNode{" +
                 "val=" + val +
-                ", left=" + left +
-                ", right=" + right +
-                '}';
+//                ", left=" + left +
+//                ", right=" + right +
+//                '}';
+        "";
     }
 }

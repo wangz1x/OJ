@@ -3,15 +3,21 @@ package com.wzx.util;
 public class ArrayGenerator {
 
     public static void main(String[] args) {
-        int[] ints = generateArray(100, 1000, false);   // 10*10
+        int[] ints = generateArray(100, 100, false);   // 10*10
 //        Arrays.sort(ints);
-
+        System.out.print("[");
         for (int i = 0; i < ints.length; i++) {
-            System.out.print(ints[i]+",");
+            if (i%10 == 0) {
+                System.out.print("[");
+            }
+            System.out.print(ints[i]);
             if (i%10 == 9) {
-                System.out.println();
+                System.out.print("],");
+            } else {
+                System.out.print(",");
             }
         }
+        System.out.print("]");
     }
 
     public static int[] generateArray(int length, int max, boolean unique) {
