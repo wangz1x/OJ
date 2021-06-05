@@ -3,7 +3,11 @@ package com.wzx.util;
 public class ArrayGenerator {
 
     public static void main(String[] args) {
-        int[] ints = generateArray(100, 100, false);   // 10*10
+
+    }
+
+    public static void generateTwo() {
+        int[] ints = generateArray(10000, 100000000, false);   // 10*10
 //        Arrays.sort(ints);
         System.out.print("[");
         for (int i = 0; i < ints.length; i++) {
@@ -18,6 +22,10 @@ public class ArrayGenerator {
             }
         }
         System.out.print("]");
+    }
+
+    public static void generateOne() {
+        int[] ints = generateArray(10000, 100000000, false);   // 10*10
     }
 
     public static int[] generateArray(int length, int max, boolean unique) {
