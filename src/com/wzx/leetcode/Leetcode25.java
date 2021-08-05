@@ -2,19 +2,24 @@ package com.wzx.leetcode;
 
 import com.wzx.util.ListNode;
 
+/**
+ * @author wangzx
+ * @email wangzx22@163.com
+ * 翻转链表以及每k个翻转链表
+ */
 public class Leetcode25 {
 
     public static void main(String[] args) {
-        System.out.println(reverseKGroup(ListNode.head, 5));
+        System.out.println("origin: " + ListNode.head);
+        ListNode reverse = reverse(ListNode.head, null);
+        System.out.println("reverse: "  + reverse);
+        System.out.println("reverseRecurse: " + reverseRecurse(ListNode.head));
     }
 
     public static ListNode reverseKGroup(ListNode head, int k) {
         if (head == null) return head;
         ListNode end = head;
         for (int i = 0; i < k; i++) {
-//            if (end == null) {
-//                return reverse(head, end);
-//            }
             if (end != null)
                 end = end.next;
         }
@@ -36,5 +41,10 @@ public class Leetcode25 {
             cur = next;
         }
         return pre;
+    }
+
+    public static ListNode reverseRecurse(ListNode node) {
+
+        return node;
     }
 }
