@@ -8,44 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class Test {
-<<<<<<< HEAD
-    public static void main(String[] args) {
-//        List<String> lists = new ArrayList<String>() {{
-//            add("千与千寻");
-//            add("白夜行");
-//            add("编程珠玑");
-//            add("编程之美");
-//        }};
-//
-//        List<String> strings = lists.subList(0, 1);
-//        strings.add("Effective Java");
-//
-//        lists.add("haha");
-//
-//        strings = null;
-//        System.out.println(lists);
-//        System.out.println(strings);
-//        minNumber(new String[]{"30", "3", "5", "34", "9"});
-//        int[][] arr = new int[][]{{6, 2}, {4, 2}};
-//        Arrays.sort(arr, (e1, e2) -> e2[1] - e1[1]);
-//        System.out.println(Arrays.deepToString(arr));
-//        System.out.println(kmp("abcabcabcabcdab", "abcabcdab"));
-//        String s = "string";
-//        int a = s.charAt(0);
-//        System.out.println((char)a);
-//        double d = 12324.12521321;
-//        String format = String.format("%.4f", d);
-//        System.out.println(format);
-//        System.out.printf("%.2f", d);
-//        System.out.println();
-//        System.out.format("%.1f", d);
-//        System.out.println();
-//        System.out.println(s.matches("abdg.*"));
-        String s1 = "12345";
-        String s2 = "567432";
-        String re = multiply(s1, s2);
-        System.out.println(re);
-    }
+
 
     public static String multiply(String s1, String s2) {
         StringBuilder sb1 = new StringBuilder(s1);
@@ -71,8 +34,7 @@ public class Test {
         }
         return sb.reverse().toString();
     }
-=======
->>>>>>> 419cb0a7b9c7a586460052dc9bae72cc9f178007
+
 
     public static final int _1_MB = 1024 * 1024;
 
