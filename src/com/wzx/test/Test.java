@@ -9,7 +9,6 @@ import java.util.Set;
 
 public class Test {
 
-
     public static String multiply(String s1, String s2) {
         StringBuilder sb1 = new StringBuilder(s1);
         StringBuilder sb2 = new StringBuilder(s2);
@@ -34,7 +33,6 @@ public class Test {
         }
         return sb.reverse().toString();
     }
-
 
     public static final int _1_MB = 1024 * 1024;
 
