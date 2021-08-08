@@ -5,9 +5,13 @@ import java.util.Arrays;
 public class ArrayGenerator {
 
     public static void main(String[] args) {
-        int[] arr = generateArray(596, 1000, false, false);
-        System.out.println(Arrays.toString(arr));
+        int[] arr = generateArray(90000, 100000, false, false);
+//        System.out.println(Arrays.toString(arr));
+        for (int a : arr) {
+            System.out.print(a + " ");
+        }
     }
+
 
     public static void generateTwo() {
         int[] ints = generateArray(999, 1000, false, false);   // 10*10
