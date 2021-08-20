@@ -1,7 +1,5 @@
 package com.wzx.beauty;
 
-import java.util.Arrays;
-
 /**
  * given N
  * find M
@@ -9,19 +7,23 @@ import java.util.Arrays;
  */
 public class Beauty0208 {
     public static void main(String[] args) {
-        System.out.println(findM(9));
+        int m, n=125;
+        System.out.println(m=findM(n));
+        System.out.println(m*n);
     }
+
 
     public static int findM(int N) {
         // keep the minimum of each remainder (1~N-1)
-        int[] remainders = new int[N];
-        boolean isChange = false;
+        int[] remainders = new int[N];  // remainders[i] 保存 mod N == i的最小整数
+        boolean isChange;
         remainders[1] = 1;
         int start = 1;
-        for (int i = 1; ; i++) {
+        for (; ; ) {
+            isChange = false;
             start *= 10;
-            int remainder1 = start % N;
-            int remainder2 = 0;
+            int remainder1 = start % N;                     //
+            int remainder2;
 
             if (remainders[remainder1] == 0 || start < remainders[remainder1]) {
                 remainders[remainder1] = start;
@@ -39,13 +41,11 @@ public class Beauty0208 {
                 }
             }
 
-            if (remainders[0] != 0) {
+            if (remainders[0] != 0) {             // 有一个数 % N == 0, 满足条件
                 break;
             }
 
-            if (isChange) {
-                isChange = false;
-            } else {
+            if (!isChange) {        // 循环一轮没有任何最小值改变，后续也不用在遍历了
                 break;
             }
         }

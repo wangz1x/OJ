@@ -1,47 +1,50 @@
 package com.wzx.leetcode;
 
-public class Leetcode25 {
-    static class ListNode {
-        int val;
-        ListNode next;
-        ListNode() {}
-        ListNode(int val) { this.val = val; }
-        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+import com.wzx.util.ListNode;
 
-        @Override
-        public String toString() {
-            return "ListNode{" +
-                    "val=" + val +
-                    ", next=" + next +
-                    '}';
-        }
-    }
+/**
+ * @author wangzx
+ * @email wangzx22@163.com
+ * 翻转链表以及每k个翻转链表
+ */
+public class Leetcode25 {
 
     public static void main(String[] args) {
-        ListNode head = new ListNode(1,new ListNode(2, new ListNode(3, null)));
-        System.out.println(reverseKGroup(head, 3));
+        System.out.println("origin: " + ListNode.head);
+        ListNode reverse = reverse(ListNode.head, null);
+        System.out.println("reverse: "  + reverse);
+        System.out.println("reverseRecurse: " + reverseRecurse(ListNode.head));
     }
 
     public static ListNode reverseKGroup(ListNode head, int k) {
-        if (head == null || head.next == null || k == 1) return head;
-
-        ListNode p = head;
-        int len = 1;
-        while (p != null && len++ < k) p=p.next;
-        if (len < k || p == null) return head;
-
-        ListNode pre = head;
-        ListNode next = head.next;
-        ListNode nextNext;
-
-        // p is new head
-        while (pre != p && next != null) {
-            nextNext = next.next;
-            next.next = pre;
-            pre = next;
-            next = nextNext;
+        if (head == null) return head;
+        ListNode end = head;
+        for (int i = 0; i < k; i++) {
+            if (end != null)
+                end = end.next;
         }
-        head.next = reverseKGroup(next, k);
-        return p;
+
+        ListNode newHead = reverse(head, end);
+        head.next = reverseKGroup(end, k);
+        return newHead;
+    }
+
+    // reverse [a, b)
+    public static ListNode reverse(ListNode a, ListNode b) {
+        ListNode pre, cur, next;
+        pre = null;
+        cur = a;
+        while (cur != b) {
+            next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+
+    public static ListNode reverseRecurse(ListNode node) {
+
+        return node;
     }
 }

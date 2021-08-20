@@ -1,5 +1,7 @@
 package com.wzx.leetcode;
 
+import com.wzx.util.TreeNode;
+
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;

@@ -2,6 +2,9 @@ package com.wzx.algorithm;
 
 import java.util.Arrays;
 
+/**
+ * 实现KMP算法
+ */
 public class Kmp {
 
     public static void main(String[] args) {
@@ -9,6 +12,8 @@ public class Kmp {
         String s = "ababcdababa";
         System.out.println(match(s, p));
         System.out.println(otherMatch(s, p));
+
+        System.out.println(Arrays.toString(otherNext("abcabcdbb")));
     }
 
     public static int[] calculateNext(String pattern) {
@@ -65,15 +70,17 @@ public class Kmp {
             while (comparePointer > 0 && pattern.charAt(i) != pattern.charAt(comparePointer)) {
                 comparePointer = next[comparePointer];
             }
-            if (pattern.charAt(comparePointer) == pattern.charAt(i)) comparePointer++;
+            if (pattern.charAt(comparePointer) == pattern.charAt(i)) // 这个判断可以去掉, 因为
+                comparePointer++; // 如果还是不一样，
         }
-        for (int i = 1; i < pattern.length(); i ++) {
-            int temp = next[i];
-            while (temp >= 0 && pattern.charAt(i) == pattern.charAt(temp)) {
-                temp = next[temp];
-            }
-            next[i] = temp;
-        }
+
+//        for (int i = 1; i < pattern.length(); i ++) {
+//            int temp = next[i];
+//            while (temp >= 0 && pattern.charAt(i) == pattern.charAt(temp)) {
+//                temp = next[temp];
+//            }
+//            next[i] = temp;
+//        }
         System.out.println("otherNext: " + Arrays.toString(next));
         return next;
     }
@@ -100,5 +107,51 @@ public class Kmp {
             return s_point - p.length();
         }
         return -1;
+    }
+
+    /**
+     * find pattern in str, and return the first char index of pattern in the str
+     * @param str source string
+     * @param pattern substring to be found in str
+     * @return first index
+     */
+    public static int kmp(String str, String pattern) {
+        int[] next = next(pattern);
+        int str_pointer = 0, pat_pointer = 0;
+
+        while (str_pointer < str.length() && pat_pointer < pattern.length()) {
+            while (pat_pointer != -1 && str.charAt(str_pointer) != pattern.charAt(pat_pointer)) {
+                pat_pointer=next[pat_pointer];
+            }
+            str_pointer++;
+            pat_pointer++;
+        }
+
+        return pat_pointer == pattern.length() ? str_pointer-pat_pointer : -1;
+    }
+
+    /**
+     * calculate the "next" position to compare when the current position is not match
+     *
+     * @param str string
+     * @return next array
+     */
+    public static int[] next(String str) {
+        int[] next = new int[str.length()];
+        next[0] = -1;
+
+        int last = 0, idx = 1;
+
+        while (idx < str.length()) {
+            next[idx] = last;
+            // calculate next for the next char
+            while (last > -1 && str.charAt(last) != str.charAt(idx)) {
+                last = next[last];
+            }
+            last++;
+            idx++;
+        }
+
+        return next;
     }
 }
