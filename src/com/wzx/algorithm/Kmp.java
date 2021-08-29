@@ -5,15 +5,30 @@ import java.util.Arrays;
 /**
  * 实现KMP算法
  */
-public class Kmp {
+interface Int {
+    default void say() {
+        System.out.println("haha");
+    }
+}
+
+public class Kmp implements Int{
+
 
     public static void main(String[] args) {
-        String p = "ababa";
-        String s = "ababcdababa";
-        System.out.println(match(s, p));
-        System.out.println(otherMatch(s, p));
+        System.out.println(t());
+        System.out.println(10/3*3%5);
+    }
 
-        System.out.println(Arrays.toString(otherNext("abcabcdbb")));
+    public static int t() {
+        Integer num = 0;
+        try {
+            num = null;
+            return num;
+        } catch (Exception e) {
+            return 1;
+        } finally {
+            return 2;
+        }
     }
 
     public static int[] calculateNext(String pattern) {
