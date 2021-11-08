@@ -13,7 +13,6 @@ public class Xiaohongshu_0904_02 {
         for (int i = 0; i < cs.length; i++) {
             count[cs[i]-'a']++;
         }
-        
-
+        return 1;
     }
 }
