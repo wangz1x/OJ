@@ -2,6 +2,7 @@ package com.wzx.test;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NavigableSet;
@@ -17,9 +18,11 @@ public class Choice<T>{
         System.out.println(pt.getActualTypeArguments()[0].toString());
 
         String s = "祝你考出好成绩！";
-        String ss = "祝你考出好成绩!";
+        String ss = "祝你考出好成绩";
         System.out.println(s+".length(): "+s.length());
         System.out.println(ss+".length(): "+ss.length());
+        System.out.println(s.getBytes(StandardCharsets.UTF_16).length);
+        System.out.println(ss.getBytes(StandardCharsets.UTF_16).length);
 
         NavigableSet<Long> set = new TreeSet<>();
     }
