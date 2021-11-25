@@ -7,7 +7,9 @@ package com.wzx.access;
  * @version 4.00 2016/6/8此版本 主要计算无关性概率 不计算最小割集或最小蕴含式
  */
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Hashtable;
+import java.util.Map;
 
 public class GMDD {
     //注意我这里是static静态的 如果不需要可以去掉
@@ -24,9 +26,16 @@ public class GMDD {
     }
 
     public static void main(String[] args) {
+<<<<<<< HEAD
 //        withoutSub();     // 0.031 0.042 0.042 0.046 0.031 0.028 0.031 0.039 0.037
 //        withSub();          // 0.031 0.025 0.022 0.031 0.025
         case1();
+=======
+
+
+//        withoutSub();       //   2 2 2 4 4 : 0.01921  5 5 5 5 5 : 0.03175
+        withSub();            //   2 2 2 4 4 : 0.01293  5 5 5 5 5 : 0.01592
+>>>>>>> a169a11b15efef0809d6342f961334c68044b321
     }
 
 
@@ -411,6 +420,7 @@ public class GMDD {
         return probc[Arrays.binarySearch(probname, c)];
     }
 
+<<<<<<< HEAD
 //    static void withoutSub() {
 //        long a = System.currentTimeMillis();//记录函数开始时间
 //
@@ -447,24 +457,62 @@ public class GMDD {
 //        System.out.println("Ficm近似值=" + proba);//输出Ficm近似概率
 //        System.out.println("执行耗时 : " + (System.currentTimeMillis() - a) / 1000f + " 秒 ");//计算执行时间
 //    }
+=======
+    static void withoutSub() {
+
+        String g001 = "Ic011&Ic012&Ic013&Ic014&Ic015";        // x1
+        String g002 = "Ic021&Ic022&Ic023&Ic024&Ic025";        // x2
+        String g003 = "Ic031&Ic032&Ic033&Ic034&Ic035";        // x3
+        String g004 = "Ic041&Ic042&Ic043&Ic044&Ic045";        // x4
+        String g005 = "Ic051&Ic052&Ic053&Ic054&Ic055";        // x5
+
+        String g013 = "Uc011|Uc012|Uc013|Uc014|Uc015";        // not-covered x1
+        String g014 = "Uc021|Uc022|Uc023|Uc024|Uc025";        // not-covered x2
+        String g015 = "Uc031|Uc032|Uc033|Uc034|Uc035";        // not-covered x3
+        String g016 = "Uc041|Uc042|Uc043|Uc044|Uc045";        // not-covered x4
+        String g017 = "Uc051|Uc052|Uc053|Uc054|Uc055";        // not-covered x5
+
+        String g006 = "g004&g005";                // x4·x5
+        String g007 = "g003|g006";                // x3+x4·x5
+        String g008 = "g001&g007";                // x1·(x3+x4·x5)
+
+        String g009 = "g003&g005";                // x3·x5
+        String g010 = "g004|g009";                // x4+x3·x5
+        String g011 = "g002&g010";                // x2·(x4+x3·x5)
+        String g012 = "g008|g011";                // x1·(x3+x4·x5)+x2·(x4+x3·x5)
+
+        long a = System.nanoTime();//记录函数开始时间
+
+        String goot = "g012|g013|g014|g015|g016|g017";
+        String[] gatename = {"g001", "g002", "g003", "g004", "g005", "g006", "g007", "g008", "g009", "g010", "g011", "g012", "g013", "g014", "g015", "g016", "g017", "goot"};
+        String[] gate = {g001, g002, g003, g004, g005, g006, g007, g008, g009, g010, g011, g012, g013, g014, g015, g016, g017, goot};
+        String indexof = "c011c012c013c014c015c021c022c023c024c025c031c032c033c034c035c041c042c043c044c045c051c052c053c054c055";//故障树深度优先顺序
+        double[] probc = {0.26, 0.26, 0.26, 0.26, 0.26, 0.04, 0.04, 0.04, 0.04, 0.04, 0.15, 0.15, 0.15, 0.15, 0.15, 0.11, 0.11, 0.11, 0.11, 0.11, 0.09, 0.09, 0.09, 0.09, 0.09};//每个基本事件的原始概率
+        String[] probname = {"c011", "c012", "c013", "c014", "c015", "c021", "c022", "c023", "c024", "c025", "c031", "c032", "c033", "c034", "c035", "c041", "c042", "c043", "c044", "c045", "c051", "c052", "c053", "c054", "c055",};//基本事件，请按顺序存放否二分查找返回错误
+        String IPCTDD = construction("goot", indexof, gate, gatename);//计算根TDD索引
+        double proba = probability(IPCTDD, probc, probname);//概率（将probc输入完整）
+//        System.out.println("Ficm近似值=" + proba);//输出Ficm近似概率
+        System.out.println("执行耗时 : " + (System.nanoTime() - a) / 1000000000f + " 秒 ");//计算执行时间
+//        return (System.currentTimeMillis() - a) / 1000f;
+    }
+>>>>>>> a169a11b15efef0809d6342f961334c68044b321
 
     static void withSub() {
 
-        String g001 = "Ic011&Ic012&Ic013";        // x1
-        String g002 = "Ic021&Ic022&Ic023";        // x2
-        String g003 = "Ic031&Ic032";              // x3
-        String g004 = "Ic041&Ic042&Ic043";        // x4
-        String g005 = "Ic051&Ic052&Ic053";        // x5
+        String g001 = "Ic011&Ic012&Ic013&Ic014&Ic015";        // x1
+        String g002 = "Ic021&Ic022&Ic023&Ic024&Ic025";        // x2
+        String g003 = "Ic031&Ic032&Ic033&Ic034&Ic035";        // x3
+        String g004 = "Ic041&Ic042&Ic043&Ic044&Ic045";        // x4
+        String g005 = "Ic051&Ic052&Ic053&Ic054&Ic055";        // x5
 
-        String g013 = "Uc011|Uc012|Uc013";        // not-covered x1
-        String g014 = "Uc021|Uc022|Uc023";        // not-covered x2
-        String g015 = "Uc031|Uc032";              // not-covered x3
-        String g016 = "Uc041|Uc042|Uc043";        // not-covered x4
-        String g017 = "Uc051|Uc052|Uc053";        // not-covered x5
+        String g013 = "Uc011|Uc012|Uc013|Uc014|Uc015";        // not-covered x1
+        String g014 = "Uc021|Uc022|Uc023|Uc024|Uc025";        // not-covered x2
+        String g015 = "Uc031|Uc032|Uc033|Uc034|Uc035";        // not-covered x3
+        String g016 = "Uc041|Uc042|Uc043|Uc044|Uc045";        // not-covered x4
+        String g017 = "Uc051|Uc052|Uc053|Uc054|Uc055";        // not-covered x5
 
         // 每个子系统都已经合并了，相当于一个单独的组件，且三边的概率也都知道了
 
-        long a = System.currentTimeMillis();//记录函数开始时间
         double[][] substitutions = new double[5][3];
 
 
@@ -475,23 +523,24 @@ public class GMDD {
         String g009 = "c103&c105";                // x3·x5
         String g010 = "c104|g009";                // x4+x3·x5
         String g011 = "c102&g010";                // x2·(x4+x3·x5)
-//        String g012 = "g008|g011";                // x1·(x3+x4·x5)+x2·(x4+x3·x5)
 
+
+        long a = System.nanoTime();//记录函数开始时间
         String goot1 = "g001|g013";
         String[] gatename1 = {"g001", "g013", "goot1"};
         String[] gate1 = {g001, g013, goot1};
-        String indexof1 = "c011c012c013";//故障树深度优先顺序
-        double[] probc1 = {0.26, 0.26, 0.26};//每个基本事件的原始概率
-        String[] probname1 = {"c011", "c012", "c013"};//基本事件，请按顺序存放否二分查找返回错误
+        String indexof1 = "c011c012c013c014c015";//故障树深度优先顺序
+        double[] probc1 = {0.26, 0.26, 0.26, 0.26, 0.26};//每个基本事件的原始概率
+        String[] probname1 = {"c011", "c012", "c013", "c014", "c015"};//基本事件，请按顺序存放否二分查找返回错误
         String IPCTDD1 = construction("goot1", indexof1, gate1, gatename1);//计算根TDD索引
         probability1(IPCTDD1, probc1, probname1, substitutions[0], 1.0, 0, 0);
 
         String goot2 = "g002|g014";
         String[] gatename2 = {"g002", "g014", "goot2"};
         String[] gate2 = {g002, g014, goot2};
-        String indexof2 = "c021c022c023";//故障树深度优先顺序
-        double[] probc2 = {0.04, 0.04, 0.04};//每个基本事件的原始概率
-        String[] probname2 = {"c021", "c022", "c023"};//基本事件，请按顺序存放否二分查找返回错误
+        String indexof2 = "c021c022c023c024c025";//故障树深度优先顺序
+        double[] probc2 = {0.04, 0.04, 0.04, 0.04, 0.04};//每个基本事件的原始概率
+        String[] probname2 = {"c021", "c022", "c023", "c024", "c025"};//基本事件，请按顺序存放否二分查找返回错误
         String IPCTDD2 = construction("goot2", indexof2, gate2, gatename2);//计算根TDD索引
         probability1(IPCTDD2, probc2, probname2, substitutions[1], 1.0, 0, 0);
 
@@ -499,9 +548,9 @@ public class GMDD {
         String goot3 = "g003|g015";
         String[] gatename3 = {"g003", "g015", "goot3"};
         String[] gate3 = {g003, g015, goot3};
-        String indexof3 = "c031c032";//故障树深度优先顺序
-        double[] probc3 = {0.15, 0.15};//每个基本事件的原始概率
-        String[] probname3 = {"c031", "c032"};//基本事件，请按顺序存放否二分查找返回错误
+        String indexof3 = "c031c032c033c034c035";//故障树深度优先顺序
+        double[] probc3 = {0.15, 0.15, 0.15, 0.15, 0.15};//每个基本事件的原始概率
+        String[] probname3 = {"c031", "c032", "c033", "c034", "c035"};//基本事件，请按顺序存放否二分查找返回错误
         String IPCTDD3 = construction("goot3", indexof3, gate3, gatename3);//计算根TDD索引
         probability1(IPCTDD3, probc3, probname3, substitutions[2], 1.0, 0, 0);
 
@@ -509,18 +558,18 @@ public class GMDD {
         String goot4 = "g004|g016";
         String[] gatename4 = {"g004", "g016", "goot4"};
         String[] gate4 = {g004, g016, goot4};
-        String indexof4 = "c041c042c043";//故障树深度优先顺序
-        double[] probc4 = {0.11, 0.11, 0.11};//每个基本事件的原始概率
-        String[] probname4 = {"c041", "c042", "c043"};//基本事件，请按顺序存放否二分查找返回错误
+        String indexof4 = "c041c042c043c044c045";//故障树深度优先顺序
+        double[] probc4 = {0.11, 0.11, 0.11, 0.11, 0.11};//每个基本事件的原始概率
+        String[] probname4 = {"c041", "c042", "c043", "c044", "c045"};//基本事件，请按顺序存放否二分查找返回错误
         String IPCTDD4 = construction("goot4", indexof4, gate4, gatename4);//计算根TDD索引
         probability1(IPCTDD4, probc4, probname4, substitutions[3], 1.0, 0, 0);
 
         String goot5 = "g005|g017";
         String[] gatename5 = {"g005", "g017", "goot5"};
         String[] gate5 = {g005, g017, goot5};
-        String indexof5 = "c051c052c053";//故障树深度优先顺序
-        double[] probc5 = {0.09, 0.09, 0.09};//每个基本事件的原始概率
-        String[] probname5 = {"c051", "c052", "c053"};//基本事件，请按顺序存放否二分查找返回错误
+        String indexof5 = "c051c052c053c054c055";//故障树深度优先顺序
+        double[] probc5 = {0.09, 0.09, 0.09, 0.09, 0.09};//每个基本事件的原始概率
+        String[] probname5 = {"c051", "c052", "c053", "c054", "c055"};//基本事件，请按顺序存放否二分查找返回错误
         String IPCTDD5 = construction("goot5", indexof5, gate5, gatename5);//计算根TDD索引
         probability1(IPCTDD5, probc5, probname5, substitutions[4], 1.0, 0, 0);
 
@@ -533,10 +582,16 @@ public class GMDD {
 
         double[] failures = new double[3];
 
+<<<<<<< HEAD
         probability4(IPCTDD6, probname6, failures, 1.0, 0, 0, substitutions);
 //        double proba6 = probability2(IPCTDD6, substitutions, probname6);//概率（将probc输入完整）
         System.out.println("Ficm近似值=" + (failures[1] + failures[2]));//输出Ficm近似概率
         System.out.println("执行耗时 : " + (System.currentTimeMillis() - a) / 1000f + " 秒 ");//计算执行时间
+=======
+        double proba6 = probability2(IPCTDD6, substitutions, probname6);//概率（将probc输入完整）
+//        System.out.println("Ficm近似值=" + proba6);//输出Ficm近似概率
+        System.out.println("执行耗时 : " + (System.nanoTime() - a) / 1000000000f + " 秒 ");//计算执行时间
+>>>>>>> a169a11b15efef0809d6342f961334c68044b321
     }
 
     static void case1() {
