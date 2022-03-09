@@ -7,6 +7,7 @@ package com.wzx.access;
  * @version 4.00 2016/6/8此版本 主要计算无关性概率 不计算最小割集或最小蕴含式
  */
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Map;
@@ -19,23 +20,22 @@ public class GMDD {
     private static Map con = new Hashtable();//construction函数动态编程记录表
     private static Map Probability = new Hashtable();//probability函数动态编程表
     private static String R = "2";//BDD索引从2开始, 这里叶子结点仍然为0，1,合并了2与1，根据香浓分解
-    private static double COVERAGE_FACTOR = 0.950200;
+    private static double COVERAGE_FACTOR = 0.95;
 
     //private static int count=0;
     public GMDD() {
     }
 
     public static void main(String[] args) {
-<<<<<<< HEAD
 //        withoutSub();     // 0.031 0.042 0.042 0.046 0.031 0.028 0.031 0.039 0.037
 //        withSub();          // 0.031 0.025 0.022 0.031 0.025
-        case1();
-=======
+//        case1();
 
 
 //        withoutSub();       //   2 2 2 4 4 : 0.01921  5 5 5 5 5 : 0.03175
-        withSub();            //   2 2 2 4 4 : 0.01293  5 5 5 5 5 : 0.01592
->>>>>>> a169a11b15efef0809d6342f961334c68044b321
+//        withSub();            //   2 2 2 4 4 : 0.01293  5 5 5 5 5 : 0.01592
+
+        Abs();
     }
 
 
@@ -321,7 +321,7 @@ public class GMDD {
 
     }
 
-    static double probability(String root, double[] failureProbability, double[] coverage, String[] probname) {//定量分析算概率
+    static double probability(String root, double[] failureProbability, String[] probname) {//定量分析算概率
         if (root.equals("0")) {
             return 0.0;
         } else if (root.equals("1")) {
@@ -334,8 +334,8 @@ public class GMDD {
             String low = index[1];
             String mid = index[2];
             String high = index[3];
-//            double pro = (1 - p(index[0], failureProbability, probname)) * probability(low, failureProbability, coverage, probname) + COVERAGE_FACTOR * p(index[0], failureProbability, probname) * probability(mid, failureProbability, coverage, probname) + (1 - COVERAGE_FACTOR) * p(index[0], failureProbability, probname) * probability(high, failureProbability, coverage, probname);//概率计算公式 cover因子0.99
-            double pro = (1 - p(index[0], failureProbability, probname)) * probability(low, failureProbability, coverage, probname) + coverage(index[0], coverage, probname) * p(index[0], failureProbability, probname) * probability(mid, failureProbability, coverage, probname) + (1 - coverage(index[0], coverage, probname)) * p(index[0], failureProbability, probname) * probability(high, failureProbability, coverage, probname);//概率计算公式 cover因子0.99
+//            double pro = (1 - p(index[0], failureProbability, probname)) * probability(low, failureProbability, coverage, probname) + COVERAGE_FACTOR * p(index[0], failureProbability, probname) * probability(mid, failureProbability, coverage, probname) + (1 - COVERAGE_FACTOR) * p(index[0], failureProbability, probname) * probability(high, failureProbability, coverage, probname);//概率计算公式 cover因子0.59
+            double pro = (1 - p(index[0], failureProbability, probname)) * probability(low, failureProbability, probname) + COVERAGE_FACTOR * p(index[0], failureProbability, probname) * probability(mid, failureProbability, probname) + (1 - COVERAGE_FACTOR) * p(index[0], failureProbability, probname) * probability(high, failureProbability, probname);
             Probability.put("probability-" + root, pro);
             return pro;
         }
@@ -359,8 +359,8 @@ public class GMDD {
             String mid = index[2];
             String high = index[3];
             probability1(low, probc, probname, substitutions, current_ * (1 - p(index[0], probc, probname)), 0, cur_position);
-            probability1(mid, probc, probname, substitutions, current_ * p(index[0], probc, probname) * 0.99, 1, cur_position);
-            probability1(high, probc, probname, substitutions, current_ * p(index[0], probc, probname) * 0.01, 2, cur_position);
+            probability1(mid, probc, probname, substitutions, current_ * p(index[0], probc, probname) * COVERAGE_FACTOR, 1, cur_position);
+            probability1(high, probc, probname, substitutions, current_ * p(index[0], probc, probname) * (1-COVERAGE_FACTOR), 2, cur_position);
         }
     }
 
@@ -420,7 +420,6 @@ public class GMDD {
         return probc[Arrays.binarySearch(probname, c)];
     }
 
-<<<<<<< HEAD
 //    static void withoutSub() {
 //        long a = System.currentTimeMillis();//记录函数开始时间
 //
@@ -457,7 +456,7 @@ public class GMDD {
 //        System.out.println("Ficm近似值=" + proba);//输出Ficm近似概率
 //        System.out.println("执行耗时 : " + (System.currentTimeMillis() - a) / 1000f + " 秒 ");//计算执行时间
 //    }
-=======
+
     static void withoutSub() {
 
         String g001 = "Ic011&Ic012&Ic013&Ic014&Ic015";        // x1
@@ -490,12 +489,11 @@ public class GMDD {
         double[] probc = {0.26, 0.26, 0.26, 0.26, 0.26, 0.04, 0.04, 0.04, 0.04, 0.04, 0.15, 0.15, 0.15, 0.15, 0.15, 0.11, 0.11, 0.11, 0.11, 0.11, 0.09, 0.09, 0.09, 0.09, 0.09};//每个基本事件的原始概率
         String[] probname = {"c011", "c012", "c013", "c014", "c015", "c021", "c022", "c023", "c024", "c025", "c031", "c032", "c033", "c034", "c035", "c041", "c042", "c043", "c044", "c045", "c051", "c052", "c053", "c054", "c055",};//基本事件，请按顺序存放否二分查找返回错误
         String IPCTDD = construction("goot", indexof, gate, gatename);//计算根TDD索引
-        double proba = probability(IPCTDD, probc, probname);//概率（将probc输入完整）
+//        double proba = probability(IPCTDD, probc, probname);//概率（将probc输入完整）
 //        System.out.println("Ficm近似值=" + proba);//输出Ficm近似概率
         System.out.println("执行耗时 : " + (System.nanoTime() - a) / 1000000000f + " 秒 ");//计算执行时间
 //        return (System.currentTimeMillis() - a) / 1000f;
     }
->>>>>>> a169a11b15efef0809d6342f961334c68044b321
 
     static void withSub() {
 
@@ -582,16 +580,15 @@ public class GMDD {
 
         double[] failures = new double[3];
 
-<<<<<<< HEAD
+
         probability4(IPCTDD6, probname6, failures, 1.0, 0, 0, substitutions);
 //        double proba6 = probability2(IPCTDD6, substitutions, probname6);//概率（将probc输入完整）
         System.out.println("Ficm近似值=" + (failures[1] + failures[2]));//输出Ficm近似概率
         System.out.println("执行耗时 : " + (System.currentTimeMillis() - a) / 1000f + " 秒 ");//计算执行时间
-=======
+
         double proba6 = probability2(IPCTDD6, substitutions, probname6);//概率（将probc输入完整）
-//        System.out.println("Ficm近似值=" + proba6);//输出Ficm近似概率
+        System.out.println("Ficm近似值=" + proba6);//输出Ficm近似概率
         System.out.println("执行耗时 : " + (System.nanoTime() - a) / 1000000000f + " 秒 ");//计算执行时间
->>>>>>> a169a11b15efef0809d6342f961334c68044b321
     }
 
     static void case1() {
@@ -608,10 +605,55 @@ public class GMDD {
         String[] gate = {g001, g002, g003, g004, goot};
         String indexof = "c001c002c003c004";//故障树深度优先顺序
         double[] failureProbability = {0.095163, 0.191219, 0.191219, 0.181269};//每个基本事件的原始概率
-        double[] coverage = {1.000000, 0.947965, 0.947965, 1.000000};
+        double[] coverage = {1.000000, 0.547965, 0.547965, 1.000000};
         String[] event = {"c001", "c002", "c003", "c004"};//基本事件，请按顺序存放否二分查找返回错误
         String IPCTDD = construction("goot", indexof, gate, gatename);//计算根TDD索引
-        double proba = probability(IPCTDD, failureProbability, coverage, event);//概率（将probc输入完整）
+        double proba = probability(IPCTDD, failureProbability, event);//概率（将probc输入完整）
         System.out.println(proba);//输出Ficm近似概率
+    }
+
+    static void Abs() {
+        String g001 = "Ic011|Ic012|Ic013|Ic014|Ic015";        // x1
+        String g002 = "Ic021|Ic022|Ic023|Ic024|Ic025";        // x2
+        String g003 = "Ic031|Ic032|Ic033|Ic034|Ic035";        // x3
+        String g004 = "Ic041|Ic042|Ic043|Ic044|Ic045";        // x4
+        String g005 = "Ic051|Ic052|Ic053|Ic054|Ic055";        // x5
+
+        String g011 = "Uc011|Uc012|Uc013|Uc014|Uc015";        // not-covered x1
+        String g012 = "Uc021|Uc022|Uc023|Uc024|Uc025";        // not-covered x2
+        String g013 = "Uc031|Uc032|Uc033|Uc034|Uc035";        // not-covered x3
+        String g014 = "Uc041|Uc042|Uc043|Uc044|Uc045";        // not-covered x4
+        String g015 = "Uc051|Uc052|Uc053|Uc054|Uc055";
+
+        String g021 = "g001&g002&g003&g004";
+        String g022 = "g021|g011|g012|g013|g014";
+
+        String[] gatename = {"g001", "g002", "g003", "g004", "g005", "g011", "g012", "g013", "g014", "g015", "g021", "g022"};
+        String[] gate = {g001, g002, g003, g004, g005, g011, g012, g013, g014, g015, g021, g022};
+        String indexof = "c011c012c013c014c015c021c022c023c024c025c031c032c033c034c035c041c042c043c044c045c051c052c053c054c055";//故障树深度优先顺序c051c052c053c054c055
+        double[] probc = {0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8};//每个基本事件的原始概率
+        String[] probname = {"c011", "c012", "c013", "c014", "c015", "c021", "c022", "c023", "c024", "c025", "c031", "c032", "c033", "c034", "c035", "c041", "c042", "c043", "c044", "c045", "c051", "c052", "c053", "c054", "c055",};//基本事件，请按顺序存放否二分查找返回错误, "c051", "c052", "c053", "c054", "c055",
+        String IPCTDD = construction("g022", indexof, gate, gatename);//计算根TDD索引
+
+        // 顶事件发生的概率，即系统失效的概率
+        double g0121 = probability(IPCTDD, probc, probname);
+
+        double[] substitutions = new double[3];
+        System.out.println(1-g0121);
+        probability1(IPCTDD, probc, probname, substitutions, 1.0, 0, 0);
+        System.out.println(Arrays.toString(substitutions));
+
+        // p=0.1
+        // m=4 [2.004944541809776E-5, 0.4761605753372258, 0.523819375217374]
+        // m=5 [1.9907948177279968E-5, 0.37823770952127084, 0.6217423825312295]
+
+        // p=0.2
+        // m=4 [6.934621999122435E-4, 0.5142113711201413, 0.4850951666798424]
+        // m=5 [7.066490155598413E-4, 0.4191093651712002, 0.5801839858220575]
+
+        // p=0.5
+        // m=4 [0.08106038127559684, 0.5648791625468487, 0.3540604561775078]
+        // m=5 [0.08772280593442396, 0.48006012355958655, 0.43221707050083635]
+
     }
 }
