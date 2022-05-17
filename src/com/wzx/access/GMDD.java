@@ -29,13 +29,13 @@ public class GMDD {
     public static void main(String[] args) {
 //        withoutSub();     // 0.031 0.042 0.042 0.046 0.031 0.028 0.031 0.039 0.037
 //        withSub();          // 0.031 0.025 0.022 0.031 0.025
-//        case1();
+        case1();
 
 
 //        withoutSub();       //   2 2 2 4 4 : 0.01921  5 5 5 5 5 : 0.03175
 //        withSub();            //   2 2 2 4 4 : 0.01293  5 5 5 5 5 : 0.01592
 
-        Abs();
+//        Abs();
     }
 
 
@@ -596,16 +596,12 @@ public class GMDD {
         String g002 = "g001&Ic004";               // (a+b+c)·d
         String g003 = "Uc002&Nc001";
         String g004 = "Uc003&Nc001";
-//        String g005 = "Uc001|Uc004";
-
-//        String goot = "g002|g003|g004|g005";
         String goot = "g002|g003|g004";
 
         String[] gatename = {"g001", "g002", "g003", "g004", "goot"};
         String[] gate = {g001, g002, g003, g004, goot};
         String indexof = "c001c002c003c004";//故障树深度优先顺序
         double[] failureProbability = {0.095163, 0.191219, 0.191219, 0.181269};//每个基本事件的原始概率
-        double[] coverage = {1.000000, 0.547965, 0.547965, 1.000000};
         String[] event = {"c001", "c002", "c003", "c004"};//基本事件，请按顺序存放否二分查找返回错误
         String IPCTDD = construction("goot", indexof, gate, gatename);//计算根TDD索引
         double proba = probability(IPCTDD, failureProbability, event);//概率（将probc输入完整）
