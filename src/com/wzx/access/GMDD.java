@@ -22,11 +22,13 @@ public class GMDD {
     private static String R = "2";//BDD索引从2开始, 这里叶子结点仍然为0，1,合并了2与1，根据香浓分解
     private static double COVERAGE_FACTOR = 0.95;
 
-    //private static int count=0;
     public GMDD() {
     }
 
     public static void main(String[] args) {
+
+        test();
+
 //        withoutSub();     // 0.031 0.042 0.042 0.046 0.031 0.028 0.031 0.039 0.037
 //        withSub();          // 0.031 0.025 0.022 0.031 0.025
         case1();
@@ -36,8 +38,8 @@ public class GMDD {
 //        withSub();            //   2 2 2 4 4 : 0.01293  5 5 5 5 5 : 0.01592
 
 //        Abs();
+        withSub();            //   2 2 2 4 4 : 0.01293  5 5 5 5 5 : 0.01592
     }
-
 
     static String construction(String root, String indexof, String[] gate, String[] gatename) {//两两拆分中缀表达式，先左后右 Nc001非事件 Ic001覆盖事件 Uc001未覆盖事件 NIc001非覆盖事件
         String Rb = R;
@@ -336,7 +338,10 @@ public class GMDD {
             String high = index[3];
 //            double pro = (1 - p(index[0], failureProbability, probname)) * probability(low, failureProbability, coverage, probname) + COVERAGE_FACTOR * p(index[0], failureProbability, probname) * probability(mid, failureProbability, coverage, probname) + (1 - COVERAGE_FACTOR) * p(index[0], failureProbability, probname) * probability(high, failureProbability, coverage, probname);//概率计算公式 cover因子0.59
             double pro = (1 - p(index[0], failureProbability, probname)) * probability(low, failureProbability, probname) + COVERAGE_FACTOR * p(index[0], failureProbability, probname) * probability(mid, failureProbability, probname) + (1 - COVERAGE_FACTOR) * p(index[0], failureProbability, probname) * probability(high, failureProbability, probname);
-            Probability.put("probability-" + root, pro);
+//            double pro = (1 - p(index[0], probc, probname)) * probability(low, probc, probname) + 0.947965 * p(index[0], probc, probname) * probability(mid, probc, probname) + 0.052035 * p(index[0], probc, probname) * probability(high, probc, probname);//概率计算公式 cover因子0.99
+//            double pro = (1 - p(index[0], failureProbability, probname)) * probability(low, failureProbability, coverage, probname) + COVERAGE_FACTOR * p(index[0], failureProbability, probname) * probability(mid, failureProbability, coverage, probname) + (1 - COVERAGE_FACTOR) * p(index[0], failureProbability, probname) * probability(high, failureProbability, coverage, probname);//概率计算公式 cover因子0.99
+//            double pro = (1 - p(index[0], failureProbability, probname)) * probability(low, failureProbability, coverage, probname) + coverage(index[0], coverage, probname) * p(index[0], failureProbability, probname) * probability(mid, failureProbability, coverage, probname) + (1 - coverage(index[0], coverage, probname)) * p(index[0], failureProbability, probname) * probability(high, failureProbability, coverage, probname);//概率计算公式 cover因子0.99
+//            Probability.put("probability-" + root, pro);
             return pro;
         }
     }
@@ -360,56 +365,33 @@ public class GMDD {
             String high = index[3];
             probability1(low, probc, probname, substitutions, current_ * (1 - p(index[0], probc, probname)), 0, cur_position);
             probability1(mid, probc, probname, substitutions, current_ * p(index[0], probc, probname) * COVERAGE_FACTOR, 1, cur_position);
-            probability1(high, probc, probname, substitutions, current_ * p(index[0], probc, probname) * (1-COVERAGE_FACTOR), 2, cur_position);
-        }
-    }
-
-    static double probability2(String root, double[][] substitutions, String[] probname) {//定量分析算概率
-        if (root.equals("0")) {
-            return 0.0;
-        } else if (root.equals("1")) {
-            return 1.0;
-        } else if (Probability.get("probability-" + root) != null) {
-            return Double.parseDouble(Probability.get("probability-" + root).toString());
-        } else {
-            String root1 = String.valueOf(CASE.get(root));//拆CASE
-            String[] index = root1.split("-");
-            String low = index[1];
-            String mid = index[2];
-            String high = index[3];
-            double[] pp = p1(index[0], substitutions, probname);
-            double pro = pp[0] * probability2(low, substitutions, probname) + pp[1] * probability2(mid, substitutions, probname) + pp[2] * probability2(high, substitutions, probname);
-            Probability.put("probability-" + root, pro);
-            return pro;
-        }
-    }
-
-    static void probability4(String root, String[] probname, double[] failures, double current_, int cur_position, int last_position, double[][] substitutions) {//定量分析算概率
-        if (root.equals("0")) {
-            failures[0] += current_;
-        } else if (root.equals("1")) {
-            if (last_position == 2) {
-                failures[2] += current_;
-            } else if (cur_position == 0 || cur_position == 1) {
-                failures[1] += current_;
-            } else {
-                failures[2] += current_;
-            }
-        } else {
-            String root1 = String.valueOf(CASE.get(root));//拆CASE
-            String[] index = root1.split("-");
-            String low = index[1];
-            String mid = index[2];
-            String high = index[3];
-            double[] pp = p1(index[0], substitutions, probname);
-            probability4(low, probname, failures, current_ * pp[0], 0, cur_position, substitutions);
-            probability4(mid, probname, failures, current_ * pp[1], 1, cur_position, substitutions);
-            probability4(high, probname, failures, current_ * pp[2], 2, cur_position, substitutions);
+            probability1(high, probc, probname, substitutions, current_ * p(index[0], probc, probname) * (1 - COVERAGE_FACTOR), 2, cur_position);
         }
     }
 
     static double p(String c, double[] probc, String[] probname) {//查找基本事件对应的概率
         return probc[Arrays.binarySearch(probname, c)];
+    }
+
+    static void test() {
+
+
+        String g001 = "Ic01|Ic02|Ic03";        // x1
+        String g002 = "g001&Ic04";
+
+        String g003 = "Uc01|Uc02|Uc03|Uc04";        // not-covered x4
+        String goot = "g002|g003";
+
+        String[] gatename = {"g001", "g002", "g003", "goot"};
+        String[] gate = {g001, g002, g003, goot};
+        String indexof = "c01c02c03c04";//故障树深度优先顺序
+        double[] probc = {0.100386, 0.191219, 0.191219, 0.191219};//每个基本事件的原始概率
+        double[] coverage = {1.000000, 0.947965, 0.947965, 1.000000};
+        String[] probname = {"c01", "c02", "c03", "c04"};//基本事件，请按顺序存放否二分查找返回错误
+        String IPCTDD = construction("goot", indexof, gate, gatename);//计算根TDD索引
+//        double proba = probability(IPCTDD, probc, coverage, probname);//概率（将probc输入完整）
+//        System.out.println("Ficm近似值=" + proba);//输出Ficm近似概率
+
     }
 
     static double coverage(String c, double[] coverage, String[] coverageName) {
@@ -581,14 +563,15 @@ public class GMDD {
         double[] failures = new double[3];
 
 
-        probability4(IPCTDD6, probname6, failures, 1.0, 0, 0, substitutions);
+//        probability4(IPCTDD6, probname6, failures, 1.0, 0, 0, substitutions);
 //        double proba6 = probability2(IPCTDD6, substitutions, probname6);//概率（将probc输入完整）
         System.out.println("Ficm近似值=" + (failures[1] + failures[2]));//输出Ficm近似概率
         System.out.println("执行耗时 : " + (System.currentTimeMillis() - a) / 1000f + " 秒 ");//计算执行时间
 
-        double proba6 = probability2(IPCTDD6, substitutions, probname6);//概率（将probc输入完整）
-        System.out.println("Ficm近似值=" + proba6);//输出Ficm近似概率
-        System.out.println("执行耗时 : " + (System.nanoTime() - a) / 1000000000f + " 秒 ");//计算执行时间
+//        double proba6 = probability2(IPCTDD6, substitutions, probname6);//概率（将probc输入完整）
+//        System.out.println("Ficm近似值=" + proba6);//输出Ficm近似概率
+//        System.out.println("执行耗时 : " + (System.nanoTime() - a) / 1000000000f + " 秒 ");//计算执行时间
+
     }
 
     static void case1() {
